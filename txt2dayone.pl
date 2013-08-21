@@ -4,28 +4,34 @@
 use warnings;
 use strict;
 
-my $date = "Jan 1999";
-my $file = "empty.doh";
+# my $date = "Jan 1999";
 
-my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-         $atime,$mtime,$ctime,$blksize,$blocks);
+# my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+#          $atime,$mtime,$ctime,$blksize,$blocks);
 
-if ( -e $file ) {
+my $file;
+foreach  $file (@ARGV) # comand line input.
+{
+  if ( -e $file ) {
 
-  ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-         $atime,$mtime,$ctime,$blksize,$blocks)
-             = stat($file);
+    my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+           $atime,$mtime,$ctime,$blksize,$blocks);
+    my $date ;
 
-  $date = $ctime;
+    ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+        $atime,$mtime,$ctime,$blksize,$blocks)
+            = stat($file);
 
-  print "dayone -d=$date new < $file \n";
-  exit;
+    $date = $ctime;
 
-  system(" dayone -d=\"$date\" new < $file ") or die $! ;
-} else {
-  print "$file missing.  $!  \n\n"; 
+    print "dayone -d=$date new < $file \n";
+    next;
+
+    system(" dayone -d=\"$date\" new < $file ") or die $! ;
+  } else {
+    print "$file missing.  $!  \n\n"; 
+  }
 }
-
 
 
 exit;
