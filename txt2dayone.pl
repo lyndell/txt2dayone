@@ -4,6 +4,30 @@
 use warnings;
 use strict;
 
+my $testmode = 0;
+my $arg;
+foreach $arg (@ARGV) {
+  if ($arg eq "-f") {
+    print "Output file parameter not implimented yet.\n\n";
+    # if the next one is empty...;
+    exit 1;
+  }
+  if ($arg eq "-h" or $arg eq "--help") {
+    print "Just give me some files.\n\n";
+    exit;
+  }
+  if ($arg eq "-X") {
+    print "Experimental.   ...and not implimented.\n\n";
+    exit 1;
+  }
+  if ($arg eq "-t") {
+    $testmode = 1;
+    shift(@ARGV);  # assuming this parm is left most.  
+    # Add at end and it detects, but is processed as a file, too.
+    print "\nTest mode.\n\n\n";
+  }
+}
+
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
@@ -19,10 +43,12 @@ foreach  $file (@ARGV) # comand line input.
 
     $date = $ctime;
 
-    print "dayone -d=$date new < $file \n";
-    next;
+    if ($testmode) {
+      print  "dayone -d=$date new < $file \n";
+    } else {
+      system("dayone -d=$date new < $file ") or die ; #"woops!  " ; #. $! ;
+    }
 
-    system(" dayone -d=\"$date\" new < $file ") or die $! ;
   } else {
     print "$file missing.  $!  \n\n"; 
   }
