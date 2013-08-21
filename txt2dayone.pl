@@ -4,11 +4,6 @@
 use warnings;
 use strict;
 
-# my $date = "Jan 1999";
-
-# my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-#          $atime,$mtime,$ctime,$blksize,$blocks);
-
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
