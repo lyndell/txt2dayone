@@ -3,8 +3,11 @@
 
 use warnings;
 use strict;
+use POSIX qw(strftime);
 
-my $testmode = 0;
+my $testmode;
+   $testmode = 0;
+   $testmode = 1;
 my $arg;
 foreach $arg (@ARGV) {
   if ($arg eq "-f") {
@@ -41,12 +44,16 @@ foreach  $file (@ARGV) # comand line input.
         $atime,$mtime,$ctime,$blksize,$blocks)
             = stat($file);
 
-    $date = $ctime;
+    $date = $mtime;
+    print "Time is $date \n";
+    $date =  strftime "%a %b %e %H:%M:%S %Y", $mtime;
+    print "Time is $date \n";
+    exit;
 
     if ($testmode) {
       print  "dayone -d=$date new < $file \n";
     } else {
-      system("dayone -d=$date new < $file ") or die ; #"woops!  " ; #. $! ;
+      system("dayone -d=$date new < $file ") or die("woops!  $!");
     }
 
   } else {
