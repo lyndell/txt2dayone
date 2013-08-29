@@ -6,8 +6,9 @@ use strict;
 use POSIX qw(strftime);
 
 my $testmode;
-   $testmode = 0;
-   $testmode = 1;
+   $testmode = 1;  # on
+   $testmode = 0;  # off
+
 my $arg;
 foreach $arg (@ARGV) {
   if ($arg eq "-f") {
@@ -44,11 +45,8 @@ foreach  $file (@ARGV) # comand line input.
         $atime,$mtime,$ctime,$blksize,$blocks)
             = stat($file);
 
-    $date = $mtime;
-    print "Time is $date \n";
     $date =  strftime "%c", localtime($mtime);
     print "Time is $date \n";
-    exit;
 
     if ($testmode) {
       print  "dayone -d=$date new < $file \n";
