@@ -35,7 +35,8 @@ foreach $arg (@ARGV) {
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
-  if ( -e $file ) {
+  if ( -e $file )
+  {
 
     my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
            $atime,$mtime,$ctime,$blksize,$blocks);
@@ -46,15 +47,26 @@ foreach  $file (@ARGV) # comand line input.
             = stat($file);
 
     $date =  strftime "%c", localtime($mtime);
-    print "Time is $date \n";
+    print "  $file has the date-time stamp of:  $date \n";
 
     if ($testmode) {
       print  "dayone -d=$date new < $file \n";
-    } else {
-      system("dayone -d=$date new < $file ") or die("woops!  $!");
+    }
+    else
+    {
+      system("dayone -d=$date new < $file ");
+      if ( $? == -1 )
+      {
+        print "command failed: $!\n";
+      }
+      else
+      {
+        print "Shell exit code ", $? >> 8 , "\n\n";
+      }
     }
 
-  } else {
+  }
+  else {
     print "$file missing.  $!  \n\n"; 
   }
 }
