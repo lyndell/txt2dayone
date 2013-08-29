@@ -46,7 +46,7 @@ foreach  $file (@ARGV) # comand line input.
 
     $date = $mtime;
     print "Time is $date \n";
-    $date =  strftime "%a %b %e %H:%M:%S %Y", $mtime;
+    $date =  strftime "%c", localtime($mtime);
     print "Time is $date \n";
     exit;
 
