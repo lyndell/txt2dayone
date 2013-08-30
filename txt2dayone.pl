@@ -47,21 +47,21 @@ foreach  $file (@ARGV) # comand line input.
             = stat($file);
 
     $date =  strftime "%c", localtime($mtime);
-    print "  $file has the date-time stamp of:  $date \n";
+    print "\n\n  $file  is dated:  $date \n";
 
     if ($testmode) {
-      print  "dayone -d=$date new < $file \n";
+      print  "dayone -d=\"$date\" new < \"$file\" \n";
     }
     else
     {
-      system("dayone -d=$date new < $file ");
+      system("dayone -d=\"$date\" new < \"$file\" ");
       if ( $? == -1 )
       {
         print "command failed: $!\n";
       }
       else
       {
-        print "Shell exit code ", $? >> 8 , "\n\n";
+        print "\nShell exit code ", $? >> 8 , "\n\n";
       }
     }
 

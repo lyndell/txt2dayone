@@ -16,3 +16,19 @@ The code is already not quoting the date infomration.  If formated,it will
 need to be quoted.
 
     system("dayone -d=$date new < $file ") or die("woops!  $!");
+
+
+
+Fri Aug 30 11:55:44 2013
+
+It works, finally and the date was processed right:
+
+    nuclear-powered-brain:Dropbox lyndell$ Projects/txt2dayone/txt2dayone.pl  snippets\ for\ John\ Wheeler.txt 
+      snippets for John Wheeler.txt  is dated:  Sun May 12 01:41:38 2013 
+    New entry : ~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/Journal_dayone/entries/77250131498C4AAB9EC3C2E4420E308C.doentry
+    Shell exit code 0
+
+    nuclear-powered-brain:Dropbox lyndell$
+
+
+
