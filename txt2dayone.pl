@@ -6,13 +6,13 @@ use strict;
 use POSIX qw(strftime);
 
 my $testmode;
-   $testmode = 1;  # on
    $testmode = 0;  # off
+   $testmode = 1;  # on
 
 my $arg;
 foreach $arg (@ARGV) {
   print "Not implimented yet.\n\n";
-  exit 1;
+  # exit 1;
 }
 
 my $file;
