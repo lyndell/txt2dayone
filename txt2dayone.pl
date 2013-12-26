@@ -6,14 +6,18 @@ use strict;
 use POSIX qw(strftime);
 
 my $testmode;
-   $testmode = 0;  # off
    $testmode = 1;  # on
+   $testmode = 0;  # off
+# print "TEST MODE.\n\n";
+my $donedir = "_done";
 
 my $arg;
 foreach $arg (@ARGV) {
+  exit 1;
   print "Not implimented yet.\n\n";
-  # exit 1;
 }
+
+use File::Copy;
 
 my $file;
 foreach  $file (@ARGV) # comand line input.
@@ -44,6 +48,7 @@ foreach  $file (@ARGV) # comand line input.
       }
       else
       {
+        move($file,$donedir); # move files out of theway after import
         print "\nShell exit code ", $? >> 8 , "\n\n";
       }
     }
