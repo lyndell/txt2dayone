@@ -11,12 +11,6 @@ my $testmode;
 # print "TEST MODE.\n\n";
 my $donedir = "_done";
 
-my $arg;
-foreach $arg (@ARGV) {
-  exit 1;
-  print "Not implimented yet.\n\n";
-}
-
 use File::Copy;
 
 my $file;
