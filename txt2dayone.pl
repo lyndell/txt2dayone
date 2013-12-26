@@ -11,25 +11,8 @@ my $testmode;
 
 my $arg;
 foreach $arg (@ARGV) {
-  if ($arg eq "-f") {
-    print "Output file parameter not implimented yet.\n\n";
-    # if the next one is empty...;
-    exit 1;
-  }
-  if ($arg eq "-h" or $arg eq "--help") {
-    print "Just give me some files.\n\n";
-    exit;
-  }
-  if ($arg eq "-X") {
-    print "Experimental.   ...and not implimented.\n\n";
-    exit 1;
-  }
-  if ($arg eq "-t") {
-    $testmode = 1;
-    shift(@ARGV);  # assuming this parm is left most.  
-    # Add at end and it detects, but is processed as a file, too.
-    print "\nTest mode.\n\n\n";
-  }
+  print "Not implimented yet.\n\n";
+  exit 1;
 }
 
 my $file;
