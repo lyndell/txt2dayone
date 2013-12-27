@@ -5,13 +5,31 @@ use warnings;
 use strict;
 use POSIX qw(strftime);
 
-my $testmode;
-   $testmode = 1;  # on
-   $testmode = 0;  # off
-# print "TEST MODE.\n\n";
-my $donedir = "_done";
-
 use File::Copy;
+use Config;
+
+my $testmode;
+my   $osvar = $Config{osname};
+my $archvar = $Config{archname};
+
+if ( $osvar eq "darwin" ) 
+{
+   $testmode = 0;  # off
+   print "test mode OFF.\n\n";
+}
+elsif ( $osvar eq "linux" ) 
+{
+   $testmode = 1;  # on, can't run the Mac app here.
+   print "      *******  TEST MODE ON!  *******  \n\n";
+}
+else
+{
+  print "What?!\n";
+  exit 1;
+}
+
+
+my $donedir = "_done";
 
 my $file;
 foreach  $file (@ARGV) # comand line input.
