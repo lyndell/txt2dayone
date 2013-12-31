@@ -12,6 +12,7 @@ my $testmode;
 my   $osvar = $Config{osname};
 my $archvar = $Config{archname};
 
+# set default testmode default.
 if ( $osvar eq "darwin" ) 
 {
    $testmode = 0;  # off
@@ -27,6 +28,11 @@ else
   print "What?!\n";
   exit 1;
 }
+
+use Getopt::Long;
+
+my $help;
+GetOptions ('test' => \$testmode, 'help' => \$help);
 
 
 my $donedir = "_done";
