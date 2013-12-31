@@ -32,7 +32,7 @@ else
 use Getopt::Long;
 
 my $help;
-GetOptions ('test' => \$testmode, 'help' => \$help);
+GetOptions ('test!' => \$testmode, 'help' => \$help);
 
 
 my $donedir = "_done";
