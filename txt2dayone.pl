@@ -11,7 +11,7 @@ use Getopt::Long;
 
 sub setTestMode;
 
-my $testmode;
+my $testmode = 0;  # OFF, simpler iniitalizing here.
 my   $osvar = $Config{osname};
 my $archvar = $Config{archname};
 
@@ -73,24 +73,28 @@ foreach  $file (@ARGV) # comand line input.
 }
 
 
-# set testmode default.
 sub setTestMode {
-  if ( $osvar eq "darwin" ) 
-  {
-     $testmode = 0;  # off
-     print "test mode OFF.\n\n";
+  print "testmode = : " . $testmode . "\n"; 
+  if ( ! $testmode ) {
+    if ( $osvar eq "darwin" ) 
+    {
+       $testmode = 0;  # off
+       print "test mode OFF.\n\n";
+    }
+    elsif ( $osvar eq "linux" ) 
+    {
+       $testmode = 1;  # on, can't run the Mac app here.
+       print "      *******  TEST MODE ON!  *******  \n\n";
+    }
+    else
+    {
+      $testmode = 1;  # If all else failes, test mode
+      print "What?!\n";
+      exit 1;
+    }
   }
-  elsif ( $osvar eq "linux" ) 
-  {
-     $testmode = 1;  # on, can't run the Mac app here.
-     print "      *******  TEST MODE ON!  *******  \n\n";
-  }
-  else
-  {
-    $testmode = 1;  # If all else failes, test mode
-    print "What?!\n";
-    exit 1;
-  }
+  print "after setTestMode\n";
+  print "testmode = : " . $testmode . "\n"; 
 }
 
 sub showhelp { print $helptext; exit 0;}
