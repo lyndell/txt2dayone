@@ -7,13 +7,13 @@ use POSIX qw(strftime);
 
 use File::Copy;
 use Config;
+use Getopt::Long;
+
+sub setTestMode;
 
 my $testmode;
 my   $osvar = $Config{osname};
 my $archvar = $Config{archname};
-sub setTestMode;
-
-use Getopt::Long;
 
 my $help = 0;
 my $helptext=<<'HELPTEXT';
@@ -23,14 +23,11 @@ my $helptext=<<'HELPTEXT';
             journal.
 HELPTEXT
 
+GetOptions ('test!' => \$testmode,
+            'help' => \$help);
 
-GetOptions ('test!' => \$testmode, 'help' => \$help);
 setTestMode();
-print "help val: " . $help . "\n";
-print "test val: " . $testmode . "\n";
 if ( $help ) { showhelp(); }
-
-sub showhelp { print $helptext; exit 0;}
 
 my $donedir = "_done";
 
@@ -94,8 +91,9 @@ sub setTestMode {
     print "What?!\n";
     exit 1;
   }
-  print "testmode ==> " . $testmode . "\n";
 }
+
+sub showhelp { print $helptext; exit 0;}
 
 exit;
 
