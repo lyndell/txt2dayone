@@ -74,27 +74,29 @@ foreach  $file (@ARGV) # comand line input.
 
 
 sub setTestMode {
-  print "testmode = : " . $testmode . "\n"; 
   if ( ! $testmode ) {
     if ( $osvar eq "darwin" ) 
     {
        $testmode = 0;  # off
-       print "test mode OFF.\n\n";
     }
     elsif ( $osvar eq "linux" ) 
     {
        $testmode = 1;  # on, can't run the Mac app here.
-       print "      *******  TEST MODE ON!  *******  \n\n";
     }
     else
     {
       $testmode = 1;  # If all else failes, test mode
-      print "What?!\n";
+      print "What?!\nUnhandled OS configuration.\n";
       exit 1;
     }
   }
-  print "after setTestMode\n";
-  print "testmode = : " . $testmode . "\n"; 
+  if ( $testmode ) {
+    print "      *******  TEST MODE ON!  *******  \n\n";
+  }
+  else
+  {
+    print "test mode OFF.\n\n";
+  }
 }
 
 sub showhelp { print $helptext; exit 0;}
