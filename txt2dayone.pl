@@ -33,7 +33,7 @@ use Getopt::Long;
 
 my $help;
 GetOptions ('test!' => \$testmode, 'help' => \$help);
-
+print "help val: " . $help . "\n";
 
 my $donedir = "_done";
 
