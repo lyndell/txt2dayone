@@ -31,7 +31,7 @@ else
 
 use Getopt::Long;
 
-my $help;
+my $help = '';
 GetOptions ('test!' => \$testmode, 'help' => \$help);
 print "help val: " . $help . "\n";
 
