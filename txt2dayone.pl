@@ -11,29 +11,26 @@ use Config;
 my $testmode;
 my   $osvar = $Config{osname};
 my $archvar = $Config{archname};
-
-# set default testmode default.
-if ( $osvar eq "darwin" ) 
-{
-   $testmode = 0;  # off
-   print "test mode OFF.\n\n";
-}
-elsif ( $osvar eq "linux" ) 
-{
-   $testmode = 1;  # on, can't run the Mac app here.
-   print "      *******  TEST MODE ON!  *******  \n\n";
-}
-else
-{
-  print "What?!\n";
-  exit 1;
-}
+sub setTestMode;
 
 use Getopt::Long;
 
-my $help = '';
+my $help = 0;
+my $helptext=<<'HELPTEXT';
+  --help    This help page
+  --test    Testmode: print the command, don't run it.
+  --notext  Test mode off: actually run command and add to Day One
+            journal.
+HELPTEXT
+
+
 GetOptions ('test!' => \$testmode, 'help' => \$help);
+setTestMode();
 print "help val: " . $help . "\n";
+print "test val: " . $testmode . "\n";
+if ( $help ) { showhelp(); }
+
+sub showhelp { print $helptext; exit 0;}
 
 my $donedir = "_done";
 
@@ -74,9 +71,31 @@ foreach  $file (@ARGV) # comand line input.
   }
   else {
     print "$file missing.  $!  \n\n"; 
+    showhelp();
   }
 }
 
+
+# set testmode default.
+sub setTestMode {
+  if ( $osvar eq "darwin" ) 
+  {
+     $testmode = 0;  # off
+     print "test mode OFF.\n\n";
+  }
+  elsif ( $osvar eq "linux" ) 
+  {
+     $testmode = 1;  # on, can't run the Mac app here.
+     print "      *******  TEST MODE ON!  *******  \n\n";
+  }
+  else
+  {
+    $testmode = 1;  # If all else failes, test mode
+    print "What?!\n";
+    exit 1;
+  }
+  print "testmode ==> " . $testmode . "\n";
+}
 
 exit;
 
