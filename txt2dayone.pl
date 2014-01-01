@@ -41,13 +41,13 @@ foreach  $file (@ARGV) # comand line input.
 {
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
+  $photo = $base . ".PNG"; 
   if ( 0 ) {
     print "base: " . $base . "\n";
     print "ext: " . $ext . "\n";
+    print "photo: " . $photo . "\n";
   }
-  $photo = $base . ".PNG"; 
-  print "photo: " . $photo . "\n";
-  if ( -e $photo )
+  if ( -e $photo ) # check for photo.
   { print "Photo " . $photo . " exists.\n";}
   else 
   { print "Photo " . $photo . " MISSING.\n";}
@@ -67,7 +67,6 @@ foreach  $file (@ARGV) # comand line input.
     print "\n\n  $file  is dated:  $date \n";
 
     if ($testmode) {
-# TODO: check for no photo.
       print  "dayone -p=\"$photo\" -d=\"$date\" new < \"$file\" \n";
     }
     else
