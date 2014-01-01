@@ -33,12 +33,12 @@ if ( $help ) { showhelp(); }
 
 my $donedir = "_done";
 
-my $photo; 
-my ($base, $dir, $ext) ;
 
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
+  my $photo; 
+  my ($base, $dir, $ext) ;
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
   $photo = $base . ".PNG";  # TODO: what about other extensions?
