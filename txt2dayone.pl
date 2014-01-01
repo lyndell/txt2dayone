@@ -8,6 +8,7 @@ use POSIX qw(strftime);
 use File::Copy;
 use Config;
 use Getopt::Long;
+use File::Basename;
 
 sub setTestMode;
 
@@ -28,6 +29,14 @@ GetOptions ('test!' => \$testmode,
 
 setTestMode();
 if ( $help ) { showhelp(); }
+
+{
+  my ($base, $dir, $ext) :
+
+  $base = basename($path);
+  $dir  = dirname($path);
+  ($base, $dir, $ext) = fileparse($path);
+}
 
 my $donedir = "_done";
 
