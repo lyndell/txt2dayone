@@ -48,7 +48,11 @@ foreach  $file (@ARGV) # comand line input.
     print "photo: " . $photo . "\n";
   }
   if ( -e $photo )                    # check for photo.
-  { print "Photo " . $photo . " exists.\n";}
+  {
+    print "Photo " . $photo . " exists.\n"; 
+    $photo = " -p=\"$photo\"";
+    print "photo: " . $photo . "\n";
+  }
   else 
   { print "Photo " . $photo . " MISSING.\n";}
   exit;
@@ -67,7 +71,7 @@ foreach  $file (@ARGV) # comand line input.
     print "\n\n  $file  is dated:  $date \n";
 
     if ($testmode) {
-      print  "dayone -p=\"$photo\" -d=\"$date\" new < \"$file\" \n";
+      print  "dayone \"$photo\" -d=\"$date\" new < \"$file\" \n";
     }
     else
     {
