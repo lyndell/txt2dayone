@@ -55,7 +55,6 @@ foreach  $file (@ARGV) # comand line input.
   }
   else 
   { print "Photo " . $photo . " MISSING.\n";}
-  exit;
   if ( -e $file )
   {
 
@@ -71,7 +70,7 @@ foreach  $file (@ARGV) # comand line input.
     print "\n\n  $file  is dated:  $date \n";
 
     if ($testmode) {
-      print  "dayone \"$photo\" -d=\"$date\" new < \"$file\" \n";
+      print  "dayone $photo -d=\"$date\" new < \"$file\" \n";
     }
     else
     {
