@@ -31,9 +31,16 @@ if ( $help ) { showhelp(); }
 
 my $donedir = "_done";
 
+my $photo; 
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
+# TODO: need to seperate file name from extention.
+  if ( -e $photo )
+  { print "Photo " . $photo . " exists.\n";}
+  else 
+  { print "Photo " . $photo . " MISSING.\n";}
+  exit;
   if ( -e $file )
   {
 
@@ -49,7 +56,8 @@ foreach  $file (@ARGV) # comand line input.
     print "\n\n  $file  is dated:  $date \n";
 
     if ($testmode) {
-      print  "dayone -d=\"$date\" new < \"$file\" \n";
+# TODO: check for no photo.
+      print  "dayone -p=\"$photo\" -d=\"$date\" new < \"$file\" \n";
     }
     else
     {
@@ -151,5 +159,12 @@ new
   when deciding how to parse a date. The date is parsed using
   -[NSDate dateWithNaturalLanguageString].
 
+-p,
+–photo-path=<path>
+
+  File path to a photo to attach
+  to entry. Most image formats are accepted. If any side of
+  the image is greater than 1600 pixels then it will be
+  resized. In all cases the image is converted to JPEG.
 
 DAYONE
