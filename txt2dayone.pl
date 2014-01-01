@@ -49,15 +49,12 @@ foreach  $file (@ARGV) # comand line input.
   }
   if ( -e $photo )                    # check for photo.
   {
-    print "Photo " . $photo . " exists.\n"; 
+    print "Photo " . $photo . " found; including.\n"; 
     $photo = " -p=\"$photo\"";
-    print "photo: " . $photo . "\n";
   }
-  else 
-  { print "Photo " . $photo . " MISSING.\n";}
+
   if ( -e $file )
   {
-
     my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
            $atime,$mtime,$ctime,$blksize,$blocks);
     my $date ;
@@ -67,25 +64,24 @@ foreach  $file (@ARGV) # comand line input.
             = stat($file);
 
     $date =  strftime "%c", localtime($mtime);
-    print "\n\n  $file  is dated:  $date \n";
+    print "\n  $file  is dated:  $date \n";
 
     if ($testmode) {
       print  "dayone $photo -d=\"$date\" new < \"$file\" \n";
     }
     else
     {
-      system("dayone -d=\"$date\" new < \"$file\" ");
+      system("dayone $photo -d=\"$date\" new < \"$file\" ");
       if ( $? == -1 )
       {
         print "command failed: $!\n";
       }
       else
       {
-        move($file,$donedir); # move files out of theway after import
+        move($file,$donedir); # move files out of the way after import
         print "\nShell exit code ", $? >> 8 , "\n\n";
       }
     }
-
   }
   else {
     print "$file missing.  $!  \n\n"; 
