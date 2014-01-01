@@ -41,7 +41,7 @@ foreach  $file (@ARGV) # comand line input.
 {
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
-  $photo = $base . ".PNG"; 
+  $photo = $base . ".PNG";  # TODO: what about other extensions?
   if ( 0 ) {
     print "base: " . $base . "\n";
     print "ext: " . $ext . "\n";
