@@ -37,17 +37,17 @@ my $donedir = "_done";
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
-  my $photo; 
+  my $photo = "";       # empty string
   my ($base, $dir, $ext) ;
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
-  $photo = $base . ".PNG";  # TODO: what about other extensions?
+  $photo = $base . ".PNG";      # TODO: what about other extensions?
   if ( 0 ) {
-    print "base: " . $base . "\n";
-    print "ext: " . $ext . "\n";
+    print "base:  " . $base . "\n";
+    print "ext:   " . $ext . "\n";
     print "photo: " . $photo . "\n";
   }
-  if ( -e $photo ) # check for photo.
+  if ( -e $photo )                    # check for photo.
   { print "Photo " . $photo . " exists.\n";}
   else 
   { print "Photo " . $photo . " MISSING.\n";}
