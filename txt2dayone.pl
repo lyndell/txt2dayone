@@ -30,21 +30,23 @@ GetOptions ('test!' => \$testmode,
 setTestMode();
 if ( $help ) { showhelp(); }
 
-{
-  my ($base, $dir, $ext) :
-
-  $base = basename($path);
-  $dir  = dirname($path);
-  ($base, $dir, $ext) = fileparse($path);
-}
 
 my $donedir = "_done";
 
 my $photo; 
+my ($base, $dir, $ext) ;
+
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
-# TODO: need to seperate file name from extention.
+  ($base, $dir, $ext) = fileparse($file);
+  ($base, $ext) = split(/\./, $base); # seperate name from extention
+  if ( 0 ) {
+    print "base: " . $base . "\n";
+    print "ext: " . $ext . "\n";
+  }
+  $photo = $base . ".PNG"; 
+  print "photo: " . $photo . "\n";
   if ( -e $photo )
   { print "Photo " . $photo . " exists.\n";}
   else 
