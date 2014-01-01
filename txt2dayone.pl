@@ -10,6 +10,7 @@ use Config;
 use Getopt::Long;
 
 sub setTestMode;
+sub getFileDate;
 
 my $testmode = 0;  # OFF, simpler iniitalizing here.
 my   $osvar = $Config{osname};
@@ -36,17 +37,8 @@ foreach  $file (@ARGV) # comand line input.
 {
   if ( -e $file )
   {
-
-    my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-           $atime,$mtime,$ctime,$blksize,$blocks);
-    my $date ;
-
-    ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-        $atime,$mtime,$ctime,$blksize,$blocks)
-            = stat($file);
-
-    $date =  strftime "%c", localtime($mtime);
-    print "\n\n  $file  is dated:  $date \n";
+    my $date =  getFileDate($file);
+    print "\n $file  is dated:  $date \n";
 
     if ($testmode) {
       print  "dayone -d=\"$date\" new < \"$file\" \n";
@@ -64,12 +56,26 @@ foreach  $file (@ARGV) # comand line input.
         print "\nShell exit code ", $? >> 8 , "\n\n";
       }
     }
-
   }
   else {
     print "$file missing.  $!  \n\n"; 
     showhelp();
   }
+}
+
+sub getFileDate() {
+  my @files = @_ ;
+  my $file = @_ ;
+  print "file = " .$file;
+  # exit;
+  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+         $atime,$mtime,$ctime,$blksize,$blocks);
+
+  ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+      $atime,$mtime,$ctime,$blksize,$blocks)
+          = stat($file);
+
+  return  strftime "%c", localtime($mtime);
 }
 
 
