@@ -36,11 +36,10 @@ my $file;
 foreach  $file (@ARGV) # comand line input.
 {
   my $date ;
-  print "File: " . $file . "\n"; 
   if ( -e $file )
   {
     $date =  getFileDate($file);
-    print "\n $file  is dated:  $date \n";
+    # print "\n $file  is dated:  $date \n";
     if ($testmode) {
       print  "dayone -d=\"$date\" new < \"$file\" \n";
     }
@@ -66,8 +65,6 @@ foreach  $file (@ARGV) # comand line input.
 
 sub getFileDate() { # input parm is filename
   my $file = $_[0];
-  print "file = " .$file;
-  # exit;
   my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
          $atime,$mtime,$ctime,$blksize,$blocks);
 
