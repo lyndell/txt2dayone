@@ -35,11 +35,12 @@ my $donedir = "_done";
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
+  my $date ;
+  print "File: " . $file . "\n"; 
   if ( -e $file )
   {
-    my $date =  getFileDate($file);
+    $date =  getFileDate($file);
     print "\n $file  is dated:  $date \n";
-
     if ($testmode) {
       print  "dayone -d=\"$date\" new < \"$file\" \n";
     }
@@ -63,9 +64,8 @@ foreach  $file (@ARGV) # comand line input.
   }
 }
 
-sub getFileDate() {
-  my @files = @_ ;
-  my $file = @_ ;
+sub getFileDate() { # input parm is filename
+  my $file = $_[0];
   print "file = " .$file;
   # exit;
   my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
