@@ -53,15 +53,17 @@ foreach  $file (@ARGV) # comand line input.
 
   if ( -e $file )
   {
+    my $cmd = "";
     $date =  getFileDate($file);
     # print "\n $file  is dated:  $date \n";
 
+    $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" \n";
     if ($testmode) {
-      print  "dayone $photo -d=\"$date\" new < \"$file\" \n";
+      print  "$cmd \n";
     }
     else
     {
-      system("dayone $photo -d=\"$date\" new < \"$file\" ");
+      system( $cmd );
       if ( $? == -1 )
       {
         print "command failed: $!\n";
@@ -74,8 +76,7 @@ foreach  $file (@ARGV) # comand line input.
     }
   }
   else {
-    print "$file missing.  $!  \n\n"; 
-    showhelp();
+    print "$file no found.\n"; # don't show help for missing file, continue.
   }
 }
 
