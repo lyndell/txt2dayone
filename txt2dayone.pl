@@ -8,6 +8,7 @@ use POSIX qw(strftime);
 use File::Copy;
 use Config;
 use Getopt::Long;
+use File::Basename;
 
 sub setTestMode;
 sub getFileDate;
@@ -30,29 +31,44 @@ GetOptions ('test!' => \$testmode,
 setTestMode();
 if ( $help ) { showhelp(); }
 
+
 my $donedir = "_done";
+
 
 my $file;
 foreach  $file (@ARGV) # comand line input.
 {
   my $date ;
+  my $photo = "";       # empty string
+  my ($base, $dir, $ext) ;
+
+  ($base, $dir, $ext) = fileparse($file);
+  ($base, $ext) = split(/\./, $base); # seperate name from extention
+  $photo = $base . ".PNG";      # TODO: what about other extensions?
+  if ( -e $photo )                    # check for photo.
+  {
+    print "Photo " . $photo . " found; including.\n"; 
+    $photo = " -p=\"$photo\"";
+  }
+
   if ( -e $file )
   {
     $date =  getFileDate($file);
     # print "\n $file  is dated:  $date \n";
+
     if ($testmode) {
-      print  "dayone -d=\"$date\" new < \"$file\" \n";
+      print  "dayone $photo -d=\"$date\" new < \"$file\" \n";
     }
     else
     {
-      system("dayone -d=\"$date\" new < \"$file\" ");
+      system("dayone $photo -d=\"$date\" new < \"$file\" ");
       if ( $? == -1 )
       {
         print "command failed: $!\n";
       }
       else
       {
-        move($file,$donedir); # move files out of theway after import
+        move($file,$donedir); # move files out of the way after import
         print "\nShell exit code ", $? >> 8 , "\n\n";
       }
     }
@@ -154,5 +170,12 @@ new
   when deciding how to parse a date. The date is parsed using
   -[NSDate dateWithNaturalLanguageString].
 
+-p,
+–photo-path=<path>
+
+  File path to a photo to attach
+  to entry. Most image formats are accepted. If any side of
+  the image is greater than 1600 pixels then it will be
+  resized. In all cases the image is converted to JPEG.
 
 DAYONE
