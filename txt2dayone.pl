@@ -11,7 +11,6 @@ use Getopt::Long;
 use File::Basename;
 
 sub setTestMode;
-sub getFileDate;
 
 my $testmode = 0;  # OFF, simpler iniitalizing here.
 my   $osvar = $Config{osname};
@@ -39,8 +38,18 @@ my $file;
 foreach  $file (@ARGV) # comand line input.
 {
   my $date ;
+  my $cmd = "";
+  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+         $atime,$mtime,$ctime,$blksize,$blocks);
+
   my $photo = "";       # empty string
   my ($base, $dir, $ext) ;
+
+  ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+      $atime,$mtime,$ctime,$blksize,$blocks)
+          = stat($file) or next "$file not found.\n"; 
+
+  $date =  strftime "%c", localtime($mtime);
 
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
@@ -51,45 +60,16 @@ foreach  $file (@ARGV) # comand line input.
     $photo = " -p=\"$photo\"";
   }
 
-  if ( -e $file )
+  $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" \n";
+  if ($testmode) {
+    print  "$cmd \n";
+  }
+  else
   {
-    my $cmd = "";
-    $date =  getFileDate($file);
-    # print "\n $file  is dated:  $date \n";
-
-    $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" \n";
-    if ($testmode) {
-      print  "$cmd \n";
-    }
-    else
-    {
-      system( $cmd );
-      if ( $? == -1 )
-      {
-        print "command failed: $!\n";
-      }
-      else
-      {
-        move($file,$donedir); # move files out of the way after import
-        print "\nShell exit code ", $? >> 8 , "\n\n";
-      }
-    }
+    system( $cmd ) or die  "command failed: $!\n";
+    move($file,$donedir); # move files out of the way after import
+    print "\nShell exit code ", $? >> 8 , "\n\n";
   }
-  else {
-    print "$file no found.\n"; # don't show help for missing file, continue.
-  }
-}
-
-sub getFileDate() { # input parm is filename
-  my $file = $_[0];
-  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-         $atime,$mtime,$ctime,$blksize,$blocks);
-
-  ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-      $atime,$mtime,$ctime,$blksize,$blocks)
-          = stat($file);
-
-  return  strftime "%c", localtime($mtime);
 }
 
 
