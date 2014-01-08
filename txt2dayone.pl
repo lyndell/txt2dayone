@@ -46,8 +46,13 @@ foreach  $file (@ARGV) # comand line input.
   my ($base, $dir, $ext) ;
 
   ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-      $atime,$mtime,$ctime,$blksize,$blocks)
-          = stat($file) or next "$file not found.\n"; 
+  $atime,$mtime,$ctime,$blksize,$blocks)
+    = stat($file) or next; 
+  if ( 0 ) 
+  {
+    print "$file not found.\n"; 
+    next; 
+  }
 
   $date =  strftime "%c", localtime($mtime);
 
