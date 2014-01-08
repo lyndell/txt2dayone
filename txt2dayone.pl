@@ -47,8 +47,8 @@ foreach  $file (@ARGV) # comand line input.
 
   ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
   $atime,$mtime,$ctime,$blksize,$blocks)
-    = stat($file) or next; 
-  if ( 0 ) 
+    = stat($file) ;
+  if ( $? == -1 )
   {
     print "$file not found.\n"; 
     next; 
