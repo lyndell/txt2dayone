@@ -74,8 +74,9 @@ foreach  $file (@ARGV) # comand line input.
   }
   else
   {
-    system( $cmd ) or die  "command failed: $!\n";
-    move($file,$donedir); # move files out of the way after import
+    print "$cmd \n";
+    system( $cmd ) or die  "Journal entry $file failed: $!\n";
+    move($file,$donedir) or die "Failed to move $file: $!\n"; 
     print "\nShell exit code ", $? >> 8 , "\n\n";
   }
 }
