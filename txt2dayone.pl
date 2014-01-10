@@ -61,14 +61,14 @@ foreach  $file (@ARGV) # comand line input.
   $photo = $base . ".PNG";      # TODO: what about other extensions?
   if ( -e $photo )                    # check for photo.
   {
-    print "Photo " . $photo . " found; including.\n"; 
+    print "\nPhoto " . $photo . " found; including.\n"; 
     $photo = " -p=\"$photo\"";
   }
   else {
     $photo = "";       # no file, command is empty string
   }
 
-  $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" \n";
+  $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" ";
   if ($testmode) {
     print  "$cmd \n";
   }
