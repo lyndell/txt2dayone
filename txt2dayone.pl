@@ -64,6 +64,9 @@ foreach  $file (@ARGV) # comand line input.
     print "Photo " . $photo . " found; including.\n"; 
     $photo = " -p=\"$photo\"";
   }
+  else {
+    $photo = "";       # no file, command is empty string
+  }
 
   $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" \n";
   if ($testmode) {
