@@ -39,22 +39,19 @@ foreach  $file (@ARGV) # comand line input.
 {
   my $date ;
   my $cmd = "";
+
+  my @stats = stat($file);
+            # stat: "Returns the empty list if stat fails. "
+  if ( ! @stats) {
+    print "File $file not found.  Skipping.\n"; 
+    next;
+  }
   my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-         $atime,$mtime,$ctime,$blksize,$blocks);
+         $atime,$mtime,$ctime,$blksize,$blocks) = @stats;
+  $date =  strftime "%c", localtime($mtime);
 
   my $photo = "";       # empty string
   my ($base, $dir, $ext) ;
-
-  ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-  $atime,$mtime,$ctime,$blksize,$blocks)
-    = stat($file) or next;
-  if ( $? == -1 )
-  {
-    print "$file not found.\n"; 
-    next; 
-  }
-
-  $date =  strftime "%c", localtime($mtime);
 
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
