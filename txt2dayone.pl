@@ -7,20 +7,21 @@ use POSIX qw(strftime);
 
 use File::Copy;
 use Config;
+my   $osvar = $Config{osname};
+my $archvar = $Config{archname};
+
 use Getopt::Long;
 use File::Basename;
 
 sub setTestMode;
 
-my $testmode = 0;  # OFF, simpler iniitalizing here.
-my   $osvar = $Config{osname};
-my $archvar = $Config{archname};
-
+my $testmode = 0;  # OFF, simpler initalizing here.
+my $donedir = "_done";
 my $help = 0;
 my $helptext=<<'HELPTEXT';
   --help    This help page
   --test    Testmode: print the command, don't run it.
-  --notext  Test mode off: actually run command and add to Day One
+  --notest  Test mode off: actually run command and add to Day One
             journal.
 HELPTEXT
 
@@ -29,9 +30,6 @@ GetOptions ('test!' => \$testmode,
 
 setTestMode();
 if ( $help ) { showhelp(); }
-
-
-my $donedir = "_done";
 
 
 my $file;
