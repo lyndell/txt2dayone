@@ -48,31 +48,45 @@ foreach  $file (@ARGV) # comand line input.
          $atime,$mtime,$ctime,$blksize,$blocks) = @stats;
   $date =  strftime "%c", localtime($mtime);
 
-  my $photo = "";       # empty string
+  my $photoFile = "";       # empty string
+  my $photoCmd  = '' ;
   my ($base, $dir, $ext) ;
+  my @exts = qw(PNG png jpg jpeg);  # Supported photo extentsions
 
   ($base, $dir, $ext) = fileparse($file);
   ($base, $ext) = split(/\./, $base); # seperate name from extention
-  $photo = $base . ".PNG";      # TODO: what about other extensions?
-  if ( -e $photo )                    # check for photo.
-  {
-    print "\nPhoto " . $photo . " found; including.\n"; 
-    $photo = " -p=\"$photo\"";
-  }
-  else {
-    $photo = "";       # no file, command is empty string
+  my $ex; 
+  foreach $ex ( @exts ) {
+    $photoFile = "$base.$ex";      
+    print "\n";
+    print "testing photo " . $photoFile . "\n";
+    if ( -e $photoFile )                    # check for photo with extension $ex
+    {
+      print "Photo " . $photoFile . " found; including.\n"; 
+      $photoCmd = " -p=\"$photoFile\"";
+    }
+    else {
+      print "Photo Command: " . $photoCmd . "\n"; # = "";       # no file, command is empty string
+    }
   }
 
-  $cmd =  "dayone $photo -d=\"$date\" new < \"$file\" ";
+  $cmd =  "dayone $photoCmd -d=\"$date\" new < \"$file\" ";
   if ($testmode) {
     print  "$cmd \n";
+    if ( $photoFile ) {
+      print "move $photoFile to directory $donedir\n";
+    }
+    print "move $file to directory $donedir\n";
   }
   else
   {
     print "$cmd \n";
     system( $cmd ) or die  "Journal entry $file failed: $!\n";
-    move($file,$donedir) or die "Failed to move $file: $!\n"; 
     print "\nShell exit code ", $? >> 8 , "\n\n";
+    if ( $photoFile ) {
+      move($photoFile,$donedir) or die "Failed to move $file: $!\n"; 
+    }
+    move($file,$donedir) or die "Failed to move $file: $!\n"; 
   }
 }
 
