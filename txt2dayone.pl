@@ -81,12 +81,12 @@ foreach  $file (@ARGV) # comand line input.
   else
   {
     print "$cmd \n";
-    system( $cmd ) or die  "Journal entry $file failed: $!\n";
+    system( $cmd ) ;# not working because of the error doce.  Thus die is killing the program.  or die  "Journal entry $file failed: $!\n";
     print "\nShell exit code ", $? >> 8 , "\n\n";
     if ( $photoFile ) {
-      move($photoFile,$donedir) or die "Failed to move $file: $!\n"; 
+      system("trash $photoFile ") or die "Failed to trash $photoFile: $!\n"; 
     }
-    move($file,$donedir) or die "Failed to move $file: $!\n"; 
+    system("trash $file ") or die "Failed to trash $file: $!\n"; 
   }
 }
 
