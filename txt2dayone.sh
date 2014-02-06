@@ -1,4 +1,4 @@
-#/bin/bash -x
+#!/bin/bash -x
 
 # Variables
 #
@@ -37,9 +37,15 @@ photoCmd=""
 # Add jounral entry
 #
 
-dayone  -d=\"${date}\" new < ${file} 
+if [ ! -e `which dayone` ]
+then
+  dayone  -d=\"${date}\" new < ${file} 
+fi
 
 # Delete added files, including photo if present.
 #
 
-trash $file || echo "Failed to trash $file: $!"; 
+if [ ! -e `which trash` ]
+then
+  trash $file || echo "Failed to trash $file: $!"; 
+fi
