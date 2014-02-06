@@ -6,6 +6,20 @@
 date=""
 file=$1
 
+# test for commands with:
+#   which stat > /dev/null
+#
+
+which stat > /dev/null
+ 
+# make sure stat command is installed 
+if [ $? -eq 1 ]
+then
+	echo "stat command not found!"
+	exit 2
+fi
+
+
 # Check for journal entry
 #
 if [ -f $file ]
