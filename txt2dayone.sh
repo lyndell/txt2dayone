@@ -34,7 +34,10 @@ fi
 # 2013-12-25 17:20:10.000000000 -0600
 # tech@wrkstn txt2dayone $ 
 
-date=`stat -c %y $file `
+#date=`stat -c %y $file `
+date=`stat -t %y $file `
+echo "Date os: $date "
+exit;
 
 
 # Check for corresponding phots, with same file name as
@@ -51,7 +54,8 @@ photoCmd=""
 # Add jounral entry
 #
 
-if [ ! -e `which dayone` ]
+if [ ! -e /usr/local/bin/dayone ]
+# `which dayone` ]
 then
   dayone  -d=\"${date}\" new < ${file} 
 fi
@@ -59,7 +63,8 @@ fi
 # Delete added files, including photo if present.
 #
 
-if [ ! -e `which trash` ]
+if [ ! -e /usr/local/bin/trash ]
+# `which trash` ]
 then
   trash $file || echo "Failed to trash $file: $!"; 
 fi
