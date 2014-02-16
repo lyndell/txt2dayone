@@ -36,7 +36,13 @@ fi
 
 #date=`stat -c %y $file `
 date=`stat -t %y $file `
-echo "Date os: $date "
+date=`stat -f "%m%t%Sm " $file | cut -f2-`
+# Example  
+#    > stat -f "%m%t%Sm %N" /tmp/* | sort -rn | head -3 | cut -f2-
+#    Apr 25 11:47:00 2002 /tmp/blah
+#    Apr 25 10:36:34 2002 /tmp/bar
+#    Apr 24 16:47:35 2002 /tmp/foo
+echo "Date is: $date "
 exit;
 
 
@@ -53,6 +59,8 @@ photoCmd=""
 #
 # Add jounral entry
 #
+
+exit;
 
 if [ ! -e /usr/local/bin/dayone ]
 # `which dayone` ]
