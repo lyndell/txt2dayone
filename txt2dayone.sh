@@ -6,49 +6,88 @@
 date=""
 file=$1
 
-# test for commands with:
-#   which stat > /dev/null
-#
-
-which stat > /dev/null
+# FUNCTIONS
  
 # make sure stat command is installed 
-if [ $? -eq 1 ]
-then
-	echo "stat command not found!"
-	exit 2
-fi
+function checkstat () {
+  which stat > /dev/null
+  if [ $? -eq 1 ]
+  then
+    echo "stat command not found!"
+    exit 2
+  fi
+}
 
+function getDate () {
+  #
+  # tech@wrkstn txt2dayone $ stat -c %y empty.txt 
+  # 2013-12-25 17:20:10.000000000 -0600
+  # tech@wrkstn txt2dayone $ 
+  #
+  if [ $OSTYPE == "linux-gnu" ]
+  then
+    date=`stat -c %y $file `
+  elif [ $OSTYPE == "darwin*" ]
+  then
+    date=`stat -f "%m%t%Sm" $file | cut -f2-`
+  fi
+  # Example  
+  #    > stat -f "%m%t%Sm %N" /tmp/* | sort -rn | head -3 | cut -f2-
+  #    Apr 25 11:47:00 2002 /tmp/blah
+  #    Apr 25 10:36:34 2002 /tmp/bar
+  #    Apr 24 16:47:35 2002 /tmp/foo
+  echo "Date is: $date "
+}
+
+# Check for corresponding phots, with same file name 
+function getPhoto () {
+  if [ "${file##*.}" == "jpg" ]
+  then
+    echo "yayh, JPEG!  We have a photo."
+  fi
+  exit;
+  photoCmd=""
+}
+
+# `which dayone` ]
+function checkDayone () {
+  if [ $OSTYPE != "darwin*" ]
+  then
+    echo "DayOne is Mac only."
+  elif [ -e /usr/local/bin/dayone ]
+  then
+    # echo dayone  -d=\"${date}\" new < ${file}
+    dayone  -d="${date}" new < ${file}
+  else
+    echo "DayOne missing"
+  fi
+}
+
+# Delete added files, including photo if present.
+#
+
+function checkTrash () {
+  if [ -e /usr/local/bin/trash ]
+  then
+    trash $file || echo "Failed to trash $file: $!"; 
+  else
+    mv -v $file deleteme/
+  fi
+}
+
+
+# START
+
+checkstat
+checkDayone
+getDate
 
 # Check for journal entry
 #
-if [ -f $file ]
+if [ ! -e $file ]
 then
-  echo " $file exists! "
+  echo " $file is missing"; exit; # " $file exists! "
 fi
-
-# Get date of file
-#
-#
-# tech@wrkstn txt2dayone $ stat -c %y empty.txt 
-# 2013-12-25 17:20:10.000000000 -0600
-# tech@wrkstn txt2dayone $ 
-
-#date=`stat -c %y $file `
-date=`stat -f "%m%t%Sm" $file | cut -f2-`
-# Example  
-#    > stat -f "%m%t%Sm %N" /tmp/* | sort -rn | head -3 | cut -f2-
-#    Apr 25 11:47:00 2002 /tmp/blah
-#    Apr 25 10:36:34 2002 /tmp/bar
-#    Apr 24 16:47:35 2002 /tmp/foo
-echo "Date is: $date "
-
-
-# Check for corresponding phots, with same file name as
-# entry
-#
-
-photoCmd=""
 
 # # Test mode
 #
@@ -57,22 +96,3 @@ photoCmd=""
 #
 # Add jounral entry
 #
-
-# `which dayone` ]
-if [ -e /usr/local/bin/dayone ]
-then
-  # echo dayone  -d=\"${date}\" new < ${file}
-  dayone  -d="${date}" new < ${file}
-else
-  echo "DayOne missing"
-fi
-
-# Delete added files, including photo if present.
-#
-
-if [ -e /usr/local/bin/trash ]
-then
-  trash $file || echo "Failed to trash $file: $!"; 
-else
-  mv -v $file deleteme/
-fi
