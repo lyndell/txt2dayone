@@ -1,4 +1,6 @@
 #!/bin/bash -x
+set +x			# stop debugging from here
+
 
 # Variables
 #
@@ -11,11 +13,15 @@ then
   echo "This is a Mac only script.  Sorry."
   testmode='echo '      # test mode ON
   echo                   "Test mode ON"
+  # set -x			          # activate debugging from here
+  # echo                  "Debugging enabled."
+
 fi
 
 # FUNCTIONS
 
-function getFile () {
+# check for file
+{
   if [ -z $file ]
   then
     echo "No file specified."
@@ -27,10 +33,10 @@ function getFile () {
     echo "File missing or not found."
     exit
   fi
-
 }
 
-function getDate () {
+# getDate 
+{
   #
   # tech@wrkstn txt2dayone $ stat -c %y empty.txt 
   # 2013-12-25 17:20:10.000000000 -0600
@@ -67,7 +73,8 @@ function getPhoto () {
   fi
 }
 
-function importEntry () {
+# importEntry 
+{
 : <<DAYONEHELP
 
   # Commands
@@ -103,11 +110,11 @@ DAYONEHELP
     $testmode dayone -d="${date}" $PHOTOSTR ;
 
 }
+set -x			          # activate debugging from here
 
 # Delete added files, including photo if present.
 #
-
-function checkTrash () {
+{
   if [ -e /usr/local/bin/trash ]
   then
     $testmode trash $file || echo "Failed to trash $file: $!"; 
@@ -115,6 +122,7 @@ function checkTrash () {
     $testmode mv -v $file deleteme/
   fi
 }
+exit;
 
 
 # START
