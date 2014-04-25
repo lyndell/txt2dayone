@@ -32,3 +32,10 @@ It works, finally and the date was processed right:
 
 
 
+17/04/2014 22:56:15
+
+Splitting checks into a setup file from the program.  The promgram should just run.
+
+left check for trash command is it may not be installed on the Mac.
+
+don't know what I'd do with that setup really.  just copy to the install/bin directory, or symlink
