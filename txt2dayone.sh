@@ -10,12 +10,11 @@ file=$1
 
 if [ $OSTYPE != "darwin*" ]
 then
-  echo "This is a Mac only script.  Sorry."
+  echo "This is a Mac only script.  "
   testmode='echo '      # test mode ON
   echo                   "Test mode ON"
   # set -x			          # activate debugging from here
   # echo                  "Debugging enabled."
-
 fi
 
 # FUNCTIONS
@@ -35,7 +34,7 @@ fi
   fi
 }
 
-# getDate 
+# get date 
 {
   #
   # tech@wrkstn txt2dayone $ stat -c %y empty.txt 
@@ -73,7 +72,7 @@ function getPhoto () {
   fi
 }
 
-# importEntry 
+# import entry 
 {
 : <<DAYONEHELP
 
@@ -115,10 +114,13 @@ set -x			          # activate debugging from here
 # Delete added files, including photo if present.
 #
 {
-  if [ -e /usr/local/bin/trash ]
+  if [ ! `which trash > /dev/null` ]
+  # if [ -e /usr/local/bin/trash ]
   then
+    # echo "error: $?"
     $testmode trash $file || echo "Failed to trash $file: $!"; 
   else
+    # echo "error: $?"
     $testmode mv -v $file deleteme/
   fi
 }
@@ -127,11 +129,8 @@ exit;
 
 # START
 
-getFile
-getDate
 getPhoto 
 
-importEntry
 
 
 # checkTrash 
