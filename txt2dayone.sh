@@ -1,5 +1,6 @@
 #!/bin/bash -x
-set +x			# stop debugging from here
+set -x			#  enable debugging 
+set +x			# disable debugging 
 
 
 # Variables
@@ -8,7 +9,7 @@ set +x			# stop debugging from here
 date=""
 file=$1
 
-if [ $OSTYPE != "darwin*" ]
+if [[ "$OSTYPE" != "darwin"* ]]
 then
   echo "This is a Mac only script.  "
   testmode='echo '      # test mode ON
@@ -41,10 +42,10 @@ fi
   # 2013-12-25 17:20:10.000000000 -0600
   # tech@wrkstn txt2dayone $ 
   #
-  if [ $OSTYPE == "linux-gnu" ]
+  if [[ "$OSTYPE" == "linux-gnu" ]]
   then
     date=`stat -c %y $file `
-  elif [ $OSTYPE == "darwin*" ]
+  elif [[ "$OSTYPE" == "darwin"* ]]
   then
     # Example  
     #    > stat -f "%m%t%Sm %N" /tmp/* | sort -rn | head -3 | cut -f2-
@@ -106,7 +107,7 @@ function getPhoto () {
 
 DAYONEHELP
 
-    $testmode dayone -d="${date}" $PHOTOSTR ;
+  $testmode dayone -d="${date}" $PHOTOSTR new < $file ;
 
 }
 set -x			          # activate debugging from here
