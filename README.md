@@ -1,3 +1,10 @@
+## Install
+
+Use the **`install.sh`** script, or **copy** to desired location such as `~/.bin` or `~/local/bin` for easy use.
+
+
+## Journal
+
 Sat Aug 24 11:44 2013  
 
 See why my script just died.  It added the text right.
@@ -39,3 +46,7 @@ Splitting checks into a setup file from the program.  The promgram should just r
 left check for trash command is it may not be installed on the Mac.
 
 don't know what I'd do with that setup really.  just copy to the install/bin directory, or symlink
+
+11/06/2014 10:22:10
+
+  Mishandles files names with embedded spaces.
