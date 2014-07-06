@@ -9,13 +9,21 @@ set +x			# disable debugging
 date=""
 file=$1
 
+: <<HELP
+
+Exit code
+---------
+
+1. Not running on Mac OS X
+2. File not specified
+3. File not found
+
+HELP
+
 if [[ "$OSTYPE" != "darwin"* ]]
 then
-  echo "This is a Mac only script.  "
-  testmode='echo '      # test mode ON
-  echo                   "Test mode ON"
-  # set -x			          # activate debugging from here
-  # echo                  "Debugging enabled."
+  echo "This is a Mac only script.  \nExiting."
+  exit 1;
 fi
 
 # FUNCTIONS
@@ -25,39 +33,22 @@ fi
   if [ -z $file ]
   then
     echo "No file specified."
-    exit
+    exit 2
   fi
 
   if [ ! -e $file ] # no file
   then
     echo "File missing or not found."
-    exit
+    exit 3
   fi
+
+  echo "File is: $file \n"
 }
 
 # get date 
 {
-  #
-  # tech@wrkstn txt2dayone $ stat -c %y empty.txt 
-  # 2013-12-25 17:20:10.000000000 -0600
-  # tech@wrkstn txt2dayone $ 
-  #
-  if [[ "$OSTYPE" == "linux-gnu" ]]
-  then
-    date=`stat -c %y $file `
-  elif [[ "$OSTYPE" == "darwin"* ]]
-  then
-    # Example  
-    #    > stat -f "%m%t%Sm %N" /tmp/* | sort -rn | head -3 | cut -f2-
-    #    Apr 25 11:47:00 2002 /tmp/blah
-    #    Apr 25 10:36:34 2002 /tmp/bar
-    #    Apr 24 16:47:35 2002 /tmp/foo
-    date=`stat -f "%m%t%Sm" $file | cut -f2-`
-  else
-    echo "Unknown OS.  Exiting."
-    exit;
-  fi
-  echo "Date is: $date "
+  date=`stat -f "%m%t%Sm" $file | cut -f2-`
+  echo "Date is: $date \n"
 }
 
 # import entry 
@@ -97,13 +88,11 @@ DAYONEHELP
   $testmode dayone -d="${date}" $PHOTOSTR new < $file ;
 
 }
-set -x			          # activate debugging from here
 
 # Delete added files, including photo if present.
 #
 {
   if [ ! `which trash > /dev/null` ]
-  # if [ -e /usr/local/bin/trash ]
   then
     # echo "error: $?"
     $testmode trash $file || echo "Failed to trash $file: $!"; 
