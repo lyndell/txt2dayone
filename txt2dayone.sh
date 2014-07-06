@@ -85,7 +85,7 @@ fi
 
 DAYONEHELP
 
-  $testmode dayone -d="${date}" $PHOTOSTR new < $file ;
+  $testmode dayone -d="${date}" $PHOTOSTR new < $file || echo "Error: $!"
 
 }
 
