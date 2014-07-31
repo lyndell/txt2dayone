@@ -100,5 +100,6 @@ DAYONEHELP
     # echo "error: $?"
     $testmode mv -v $file deleteme/
   fi
+  echo "\n\n";
 }
 
