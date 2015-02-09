@@ -20,7 +20,10 @@ Exit code
 
 HELP
 
-if [[ "$OSTYPE" != "darwin"* ]]
+testmode='';
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  testmode='echo ';
+elif [[ "$OSTYPE" != "darwin"* ]]
 then
   echo "This is a Mac only script.  \nExiting."
   exit 1;
