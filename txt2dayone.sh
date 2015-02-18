@@ -2,6 +2,10 @@
 set +x			# disable debugging 
 set -x			#  enable debugging 
 
+# - [ ] TODO: add switch for opting to open an editor
+# - [ ] TODO: add code to test for switch, open or bypass
+#             opening editor.
+#
 
 # Variables
 #
