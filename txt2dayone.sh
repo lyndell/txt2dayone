@@ -1,6 +1,6 @@
 #!/bin/bash -x
-set -x			#  enable debugging 
 set +x			# disable debugging 
+set -x			#  enable debugging 
 
 
 # Variables
@@ -94,8 +94,16 @@ fi
 
 DAYONEHELP
 
-  $testmode dayone -d="${date}" $PHOTOSTR new < $file ;
-
+  set -x			          # activate debugging from here
+  open -nW -a byword $file 
+  if [ ! -z $testmode ]
+  then
+    echo "testing"
+    echo "dayone -d='${date}' new < ${file} ;"
+  else
+    echo "Live..."
+    dayone -d="${date}" new < "${file}" ;
+  fi
 }
 set -x			          # activate debugging from here
 
