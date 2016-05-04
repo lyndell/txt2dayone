@@ -20,6 +20,12 @@ then
   echo                   "Test mode ON"
   # set -x			          # activate debugging from here
   # echo                  "Debugging enabled."
+else
+  if [[ ! `which dayone` ]] 
+  then
+    echo "DayOne CLI missing"
+    exit
+  fi
 fi
 
 # FUNCTIONS
