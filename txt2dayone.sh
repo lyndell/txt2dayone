@@ -105,7 +105,12 @@ fi
 DAYONEHELP
 
   set -x			          # activate debugging from here
-  open -nW -a byword $file 
+
+  if [ ! -z $EDITFILE ]; then
+    echo "\$EDITFILE = '${EDITFILE}'"; exit
+    open -nW -a byword $file 
+  fi
+
   if [ ! -z $testmode ]
   then
     echo "testing"
